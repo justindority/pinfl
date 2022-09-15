@@ -17,7 +17,7 @@ export const Users = () => {
         <ul>
             {
                 users.map(u => {
-                    return <li><Link key={u.id} to={`profile/${u.id}`}>{u.name}</Link></li>
+                    return <li key={u.id}><Link to={`profile/${u.id}`}>{u.name}</Link></li>
                 })
             }
 </ul>
