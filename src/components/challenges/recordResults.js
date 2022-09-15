@@ -1,14 +1,28 @@
 import { useEffect, useState } from "react"
-import { useParams } from "react-router-dom"
-import { Challenges } from "./challenges"
+import { useNavigate, useParams } from "react-router-dom"
 
-export const ModifyChallenge = () => {
+export const RecordResults = () => {
+
+    const navigate = useNavigate()
     const { challengeId } = useParams()
     const [locations,setLocations] = useState([])
     const [challenge,updateChallenge] = useState({})
     const [users, setUsers] = useState([])
     const [selectedLocation, setSelectedLocation] = useState()
-    const [opponentId, setOpponent] = useState()
+    const [opponentId, setOpponentId] = useState()
+    const [foundOpponent, setOpponent] = useState({})
+    const [game1,setGame1] = useState()
+    const [game2,setGame2] = useState()
+    const [game3,setGame3] = useState()
+    const [isLoading,setLoading] = useState(true)
+    const [foundSelf,setSelf] = useState({})
+    const [winners,setWinners] = useState({
+        game1winner: 0,
+        game2winner: 0,
+        game3winner: 0
+    })
+
+
 
 
 
@@ -30,111 +44,105 @@ export const ModifyChallenge = () => {
                             .then(response => response.json())
                             .then((array)=>{
                                 updateChallenge(array)
+                                setLoading(false)
                     })
             })
     },[])
-
+        
     useEffect(()=>{
-        let foundLocation = locations.find(l => l.id === challenge?.locationId)
+        if(locations.length !== 0 && challenge){
+        let foundLocation = locations.find(l => l.id === challenge.locationId)
         setSelectedLocation(foundLocation)
-
+        let foundGame1 = foundLocation.location_machine_xrefs.find(lmxr => lmxr.machine.opdb_id === challenge.game1Id)
+        let foundGame2 = foundLocation.location_machine_xrefs.find(lmxr => lmxr.machine.opdb_id === challenge.game2Id)
+        let foundGame3 = foundLocation.location_machine_xrefs.find(lmxr => lmxr.machine.opdb_id === challenge.game3Id)
+        setGame1(foundGame1)
+        setGame2(foundGame2)
+        setGame3(foundGame3)
+        
         if(challenge.recipientId === pinflUserObject.id){
-            setOpponent(challenge.challengerId)
+            setOpponentId(challenge.challengerId)
         } else if(challenge.challengerId === pinflUserObject.id){
-            setOpponent(challenge.recipientId)
+            setOpponentId(challenge.recipientId)
         }
 
+
+        
+        }
     },[challenge])
 
+    useEffect(()=>{
+        let foundOpponentObject = users.find(u => u.id === parseInt(opponentId))
+        setOpponent(foundOpponentObject)
+        let foundSelfObject = users.find(u => u.id === pinflUserObject.id)
+        setSelf(foundSelfObject)
+    },[opponentId])
 
+    const handleRecordButtonClick = () => {
+        const completionObject = {
+            challengeId: challenge.id,
+            game1WinnerId: winners.game1winner,
+            game2WinnerId: winners.game2winner,
+            game3WinnerId: winners.game3winner
+        }
 
-
-    const handleSubmitButtonClick = (event) => {
-
-            return fetch(`http://localhost:8088/challenges/${challengeId}`, {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(challenge)
-            })
-                .then(response => response.json())
-                .then(() => {
-                    
-                })
-    
-    }
-
-    const handleDeleteButtonClick = (evt) => {
-
-        return fetch(`http://localhost:8088/challenges/${challengeId}`, {
-            method: "DELETE",
+        return fetch(`http://localhost:8088/completedChallenges`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(completionObject)
         })
             .then(response => response.json())
-            .then((resp) => {
-                
+            .then(() => {
+                navigate(`/challenges`)
             })
 
+        }
+
+    
+
+    const setGame1Winner = (event) => {
+        let copy = winners
+        copy.game1winner = parseInt(event.target.value)
+        setWinners(copy)
+    }
+
+    const setGame2Winner = (event) => {
+        let copy = winners
+        copy.game2winner = parseInt(event.target.value)
+        setWinners(copy)
+    }
+
+    const setGame3Winner = (event) => {
+        let copy = winners
+        copy.game3winner = parseInt(event.target.value)
+        setWinners(copy)
+    }
+
+    if(isLoading){
+        return <>Loading</>
     }
 
     return (
         <form className="challenge-form">
-            <h2 className="challenge-form-title">Modify Challenge</h2>
+            <h2 className="challenge-form-title">Record Challenge Results</h2>
             <fieldset>
                 <div className="form-group">
                     <label htmlFor="opponents">Opponent:</label>
-                    <select disabled
-                    className="form-control"
-                        value={opponentId}
-                        onChange={
-                            (event) => {
-                                const copy = {...challenge}
-                                copy.opponentId = parseInt(event.target.value)
-                                updateChallenge(copy)
-                            }
-                        }>
-                            <option
-                            value={0}
-                            >Choose Opponent</option>
-                            {
-                                users.map(u => {if(u.id !== pinflUserObject.id){
-                                    return <option key={u.id} value={u.id}>{u.name}</option>
-                                }})
-                            }
-
-                        </select>
+                    <h4>{foundOpponent?.name}</h4>
                 </div>
             </fieldset>
             <fieldset>
                 <div className="form-group">
                 <label htmlFor="locations">Location:</label>
-                    <select
-                    className="form-control"
-                        value={challenge?.locationId}
-                        onChange={
-                            (event) => {
-                                const copy = {...challenge}
-                                copy.locationId = parseInt(event.target.value)
-                                updateChallenge(copy)
-                                challenge.game1Id = ""
-                                challenge.game2Id = ""
-                                challenge.game3Id = ""
-                            }
-                        }>
-                            <option
-                            value={0}
-                            >Choose Location</option>
-                            {
-                                locations.map(l => <option key={l.id} value={l.id}>{l.name}</option>)
-                            }
-
-                        </select>
+                    <h2>Location: {selectedLocation?.name}</h2>
                 </div>
             </fieldset>
             <fieldset>
             <div className="form-group">
                 <label htmlFor="date">Date:</label>
-                <input type="date" id="date"
+                <input type="date" id="date" disabled
                     value={challenge?.challengeDate}
                     onChange={
                         (event) => {
@@ -147,9 +155,9 @@ export const ModifyChallenge = () => {
         </fieldset>                
             <fieldset>
                 <div className="form-group">
-                <label htmlFor="locations">Game 1:</label>
+                <label htmlFor="game1">Game 1:</label>
                     <select
-                    className="form-control"
+                    className="form-control" disabled
                         value={challenge?.game1Id}
                         onChange={
                             (event) => {
@@ -166,6 +174,13 @@ export const ModifyChallenge = () => {
                             }
 
                         </select>
+                        <div onChange={(evt)=>setGame1Winner(evt)}>
+                        <label htmlFor="game1Winner">Game 1 Winner:</label>
+                        <input id="game1you" name="game1winner" type={"radio"} value={foundSelf?.id}></input>
+                        <label htmlFor="game1you">{foundSelf?.name}</label>
+                        <input name="game1winner" type={"radio"} id="game1opponent" value={foundOpponent?.id} ></input>
+                        <label htmlFor="game1opponent">{foundOpponent?.name}</label>
+                        </div>
                 </div>
             </fieldset>
 
@@ -173,7 +188,7 @@ export const ModifyChallenge = () => {
                 <div className="form-group">
                 <label htmlFor="game2">Game 2:</label>
                     <select
-                    className="form-control"
+                    className="form-control" disabled
                         value={challenge?.game2Id}
                         onChange={
                             (event) => {
@@ -190,6 +205,13 @@ export const ModifyChallenge = () => {
                             }
 
                         </select>
+                        <div onChange={(evt)=>setGame2Winner(evt)}>
+                        <label htmlFor="game1Winner">Game 2 Winner:</label>
+                        <input id="game2you" name="game2winner" type={"radio"} value={foundSelf?.id}></input>
+                        <label htmlFor="game2you">{foundSelf?.name}</label>
+                        <input name="game2winner" type={"radio"} id="game2opponent" value={foundOpponent?.id} ></input>
+                        <label htmlFor="game2opponent">{foundOpponent?.name}</label>
+                        </div>
                 </div>
             </fieldset>
 
@@ -197,7 +219,7 @@ export const ModifyChallenge = () => {
                 <div className="form-group">
                 <label htmlFor="game3">Game 3:</label>
                     <select
-                    className="form-control"
+                    className="form-control" disabled
                         value={challenge?.game3Id}
                         onChange={
                             (event) => {
@@ -214,19 +236,20 @@ export const ModifyChallenge = () => {
                             }
 
                         </select>
+                        <div onChange={(evt)=>setGame3Winner(evt)}>
+                        <label htmlFor="game3Winner">Game 3 Winner:</label>
+                        <input id="game3you" name="game3winner" type={"radio"} value={foundSelf?.id}></input>
+                        <label htmlFor="game3you">{foundSelf?.name}</label>
+                        <input name="game3winner" type={"radio"} id="game3opponent" value={foundOpponent?.id} ></input>
+                        <label htmlFor="game3opponent">{foundOpponent?.name}</label>
+                        </div>
                 </div>
             </fieldset>
           
             <button 
-            onClick={(clickEvent) => handleSubmitButtonClick(clickEvent)}
+            onClick={(clickEvent) => handleRecordButtonClick(clickEvent)}
             className="btn btn-primary">
-                Submit Challenge Modifications
-            </button>
-
-            <button
-            onClick={(evt) => handleDeleteButtonClick(evt)}
-            className="btn btn-primary">
-                Delete Challenge
+                Record Challenge Results
             </button>
         </form>
     )

@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom"
 import { ModifyChallenge } from "../challenges/modifyChallenge"
 
-export const ProfileChallenge = ({challenge,locations,games,user,completedChallenges,users}) => {
+export const ChallengeItem = ({challenge,locations,games,userObject,completedChallenges,users}) => {
     let navigate = useNavigate()
     let foundOpponentId = null
     let foundOpponent = {}
@@ -22,9 +22,9 @@ export const ProfileChallenge = ({challenge,locations,games,user,completedChalle
         return winnerUserObject
     }
 
-    if(challenge.challengerId === user.id){
+    if(challenge.challengerId === userObject.id){
         foundOpponentId = challenge.recipientId
-    } else if(challenge.recipientId === user.id){
+    } else if(challenge.recipientId === userObject.id){
         foundOpponentId = challenge.challengerId
     } else {
         return ""

@@ -3,6 +3,7 @@ import { Outlet, Route, Routes } from "react-router-dom"
 import { Challenges } from "../challenges/challenges"
 import { CreateChallenge } from "../challenges/createChallenge"
 import { ModifyChallenge } from "../challenges/modifyChallenge"
+import { RecordResults } from "../challenges/recordResults"
 import { Profile } from "../users/profile"
 import { Users } from "../users/users"
 
@@ -27,6 +28,7 @@ export const ApplicationViews = () => {
 				<Route path="users" element={ <Users />} />
 				<Route path="users/profile/:userId" element={ <Profile />} />
 				<Route path="challenges/modify/:challengeId" element={ <ModifyChallenge />} />
+				<Route path="challenges/record/:challengeId" element={ <RecordResults />} />
 
 
             </Route>

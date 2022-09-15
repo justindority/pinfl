@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react"
+import { useNavigate } from "react-router-dom"
 import { Challenges } from "./challenges"
 
 export const CreateChallenge = () => {
@@ -6,6 +7,7 @@ export const CreateChallenge = () => {
     const [challenge,updateChallenge] = useState({})
     const [users, setUsers] = useState([])
     const [selectedLocation, setSelectedLocation] = useState()
+    const navigate = useNavigate()
 
     useEffect(()=>{
         fetch(`http://localhost:8088/locations`)
@@ -30,15 +32,15 @@ export const CreateChallenge = () => {
     const pinflUserObject = JSON.parse(localPinflUser)
 
     const handleSubmitButtonClick = (event) => {
-        if(challenge.opponentId && challenge.locationId && challenge.date && challenge.game1 && challenge.game2 && challenge.game3){
+        if(challenge.opponentId && challenge.locationId && challenge.challengeDate && challenge.game1Id && challenge.game2Id && challenge.game3Id){
     
             const newChallenge = {
                 challengerId: pinflUserObject.id,
                 recipientId: challenge.opponentId,
                 locationId: challenge.locationId,
-                game1Id: challenge.game1,
-                game2Id: challenge.game2,
-                game3Id: challenge.game3,
+                game1Id: challenge.game1Id,
+                game2Id: challenge.game2Id,
+                game3Id: challenge.game3Id,
                 challengeDate: challenge.challengeDate,
                 accepted: false
             }
@@ -51,7 +53,9 @@ export const CreateChallenge = () => {
                 body: JSON.stringify(newChallenge)
             })
                 .then(response => response.json())
-                .then(() => {})
+                .then(() => {
+                    navigate(`/challenges`)
+                })
     
             } else {
     
@@ -113,7 +117,7 @@ export const CreateChallenge = () => {
             <div className="form-group">
                 <label htmlFor="date">Date:</label>
                 <input type="date" id="date"
-                    value={challenge?.date}
+                    value={challenge?.challengeDate}
                     onChange={
                         (event) => {
                             const copy = {...challenge}
@@ -132,7 +136,7 @@ export const CreateChallenge = () => {
                         onChange={
                             (event) => {
                                 const copy = {...challenge}
-                                copy.game1 = event.target.value
+                                copy.game1Id = event.target.value
                                 updateChallenge(copy)
                             }
                         }>
@@ -156,7 +160,7 @@ export const CreateChallenge = () => {
                         onChange={
                             (event) => {
                                 const copy = {...challenge}
-                                copy.game2 = event.target.value
+                                copy.game2Id = event.target.value
                                 updateChallenge(copy)
                             }
                         }>
@@ -180,7 +184,7 @@ export const CreateChallenge = () => {
                         onChange={
                             (event) => {
                                 const copy = {...challenge}
-                                copy.game3 = event.target.value
+                                copy.game3Id = event.target.value
                                 updateChallenge(copy)
                             }
                         }>
