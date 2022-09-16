@@ -13,7 +13,7 @@ export const Challenges = () => {
 
 
     useEffect(()=>{
-        fetch(`http://localhost:8088/challenges`)
+        fetch(`http://localhost:8088/challenges?_embed=completedChallenges`)
         .then(r => r.json())
         .then((challengesArray) => {
             setChallenges(challengesArray)
@@ -61,7 +61,6 @@ console.log({myChallenges, challenges})
 
 if(myChallenges.length === 0){
     return <>
-    <h2>{userObject.name}'s Profile</h2>
     <>No Challenges Found</>
     </>
 }
@@ -69,9 +68,16 @@ if(myChallenges.length === 0){
     return (
     <>
     <Link className="navbar__link" to="/createChallenge">Create Challenge</Link>
+    <h2>Upcoming Challenges</h2>
     {
         challenges.map(c => {
-            return <ChallengeItem key={c.id} challenge={c} locations={locations} games={games} userObject={userObject} completedChallenges={completedChallenges} users={users}/>
+            return <ChallengeItem key={c.id} challenge={c} locations={locations} games={games} userObject={userObject} completedChallenges={completedChallenges} users={users} past={"false"}/>
+        })
+    }
+        <h2>Past Challenges</h2>
+    {
+        challenges.map(c => {
+            return <ChallengeItem key={c.id} challenge={c} locations={locations} games={games} userObject={userObject} completedChallenges={completedChallenges} users={users} past={"true"}/>
         })
     }
     </>

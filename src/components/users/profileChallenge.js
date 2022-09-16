@@ -51,19 +51,21 @@ export const ProfileChallenge = ({challenge,locations,games,user,completedChalle
 
         </div>)
         } else {
-        return (<div id={challenge.id} key={challenge.id} className="upcomingChallenge">
-            <h3>Vs. {foundOpponent?.name}</h3>
-            <p>Upcoming at {foundLocation?.name} on {challenge.challengeDate}</p>
-            <p>Game 1: {foundGame1?.name}</p>
-            <img src={foundGame1?.images[0]?.urls?.small}/>
-            <p>Game 2: {foundGame2?.name} </p>
-            <img src={foundGame2?.images[0]?.urls?.small}/>
-            <p>Game 3: {foundGame3?.name}</p>
-            <img src={foundGame3?.images[0]?.urls?.small}/>
-            <button onClick={(event)=>clickModify(challenge.id)} >Modify Challenge</button>
-            <button onClick={(event)=>clickRecord(challenge.id)} >Record Results</button>
+        return ""
+        
+        // (<div id={challenge.id} key={challenge.id} className="upcomingChallenge">
+        //     <h3>Vs. {foundOpponent?.name}</h3>
+        //     <p>Upcoming at {foundLocation?.name} on {challenge.challengeDate}</p>
+        //     <p>Game 1: {foundGame1?.name}</p>
+        //     <img src={foundGame1?.images[0]?.urls?.small}/>
+        //     <p>Game 2: {foundGame2?.name} </p>
+        //     <img src={foundGame2?.images[0]?.urls?.small}/>
+        //     <p>Game 3: {foundGame3?.name}</p>
+        //     <img src={foundGame3?.images[0]?.urls?.small}/>
+        //     <button onClick={(event)=>clickModify(challenge.id)} >Modify Challenge</button>
+        //     <button onClick={(event)=>clickRecord(challenge.id)} >Record Results</button>
 
-        </div>) 
+        // </div>) 
         }
     }
 }

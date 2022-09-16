@@ -22,7 +22,7 @@ export const Profile = () => {
     },[userId])
 
     useEffect(()=>{
-        fetch(`http://localhost:8088/challenges`)
+        fetch(`http://localhost:8088/challenges?_embed=completedChallenges`)
         .then(r => r.json())
         .then((challengesArray) => {
             setChallenges(challengesArray)
@@ -60,6 +60,7 @@ export const Profile = () => {
     }
 
     let myChallenges = challenges.filter((c) => {
+        if(c.completedChallenges.length > 0)
         return (c.challengerId === parseInt(userId) || c.recipientId === parseInt(userId))
         })
 
@@ -68,15 +69,41 @@ export const Profile = () => {
     if(myChallenges.length === 0){
         return <>
         <h2>{user.name}'s Profile</h2>
-        <>No Challenges Found</>
+        <>No Completed Challenges Found</>
         </>
     }
 
     if(user.id === pinflUserObject.id){
+
+        let wins = 0
+        let losses = 0
+        for (const challenge of challenges) {
+            if(challenge.completedChallenges.length > 0){
+                if(challenge.challengerId === user.id || challenge.recipientId === user.id){
+                if(user.id === challenge.completedChallenges.game1WinnerId){
+                    if(user.id === challenge.completedChallenges.game2WinnerId){
+                        wins++
+                    } else if (user.id === challenge.completedChallenges.game3WinnerId){
+                        wins++
+                    }
+                } else if (user.id === challenge.completedChallenges.game2WinnerId){
+                    if(user.id === challenge.completedChallenges.game3WinnerId){
+                        wins++
+                    }
+                } else {
+                    losses++
+                }
+                }
+            }
+        }
+
         return (
         <>
         <h2>Your Profile</h2>
-        {console.log(challenges)}
+        <div>
+            Wins: {wins} Losses: {losses}
+        </div>
+        <h4>Completed Challenges</h4>
         {
             challenges.map(c => {
                 return <ProfileChallenge key={c.id} challenge={c} locations={locations} games={games} user={user} completedChallenges={completedChallenges} users={users}/>
@@ -85,9 +112,36 @@ export const Profile = () => {
         </>
         )
     } else {
+
+        let wins = 0
+        let losses = 0
+        for (const challenge of challenges) {
+            if(challenge.completedChallenges.length > 0){
+                if(challenge.challengerId === user.id || challenge.recipientId === user.id){
+                if(user.id === challenge.completedChallenges.game1WinnerId){
+                    if(user.id === challenge.completedChallenges.game2WinnerId){
+                        wins++
+                    } else if (user.id === challenge.completedChallenges.game3WinnerId){
+                        wins++
+                    }
+                } else if (user.id === challenge.completedChallenges.game2WinnerId){
+                    if(user.id === challenge.completedChallenges.game3WinnerId){
+                        wins++
+                    }
+                } else {
+                    losses++
+                }
+                }
+            }
+        }
+
         return (
         <>
         <h2>{user.name}'s Profile</h2>
+        <div>
+            Wins: {wins} Losses: {losses}
+        </div>
+        <h4>Completed Challenges</h4>
         {
             challenges.map(c => {
                 return <ProfileChallenge key={c.id} challenge={c} locations={locations} games={games} user={user} completedChallenges={completedChallenges} users={users}/>
