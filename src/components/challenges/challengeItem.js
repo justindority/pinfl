@@ -31,7 +31,7 @@ export const ChallengeItem = ({challenge,locations,games,userObject,completedCha
         })
             .then(response => response.json())
             .then(() => {
-                navigate(`/challenges`)
+                navigate("/challenges")
             })
     }
 
@@ -56,11 +56,30 @@ export const ChallengeItem = ({challenge,locations,games,userObject,completedCha
         let foundGame1 = games.find(g => g.opdb_id === challenge.game1Id)
         let foundGame2 = games.find(g => g.opdb_id === challenge.game2Id)
         let foundGame3 = games.find(g => g.opdb_id === challenge.game3Id)
+        let result = ""
         completedCheck = completedChallenges.find(cc => cc.challengeId === challenge.id)
         if(past === "true" && completedCheck){
 
+            if(userObject.id === challenge.completedChallenges[0].game1WinnerId){
+                if(userObject.id === challenge.completedChallenges[0].game2WinnerId){
+                    result = "(W)"
+                } else if (userObject.id === challenge.completedChallenges[0].game3WinnerId){
+                    result = "(W)"
+                } else {
+                    result = "(L)"
+                }
+            } else if (userObject.id === challenge.completedChallenges[0].game2WinnerId){
+                if(userObject.id === challenge.completedChallenges[0].game3WinnerId){
+                    result = "(W)"
+                } else {
+                    result = "(L)"
+                }
+            } else {
+                result = "(L)"
+            }
+
             return (<div id={challenge.id} key={challenge.id} className="completedChallenge">
-            <h3>Vs. {foundOpponent?.name}</h3>
+            <h3>Vs. {foundOpponent?.name} {result}</h3>
             <p>Completed at {foundLocation?.name} on {challenge.challengeDate}</p>
             <p>Game 1: {foundGame1?.name} (Winner: {findUser(completedCheck.game1WinnerId).name})</p>
             <img src={foundGame1?.images[0]?.urls?.small}/>
@@ -78,7 +97,7 @@ export const ChallengeItem = ({challenge,locations,games,userObject,completedCha
             <p>Game 2: {foundGame2?.name} </p>
             <img src={foundGame2?.images[0]?.urls?.small}/>
             <p>Game 3: {foundGame3?.name}</p>
-            <img src={foundGame3?.images[0]?.urls?.small}/>
+            <img src={foundGame3?.images[0]?.urls?.small}/><br></br><br></br>
             {
                 challenge.accepted === true 
                 ?

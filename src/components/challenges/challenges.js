@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { Link, useParams } from "react-router-dom"
 import { ProfileChallenge } from "../users/profileChallenge"
 import { ChallengeItem } from "./challengeItem"
+import "./challenges.css"
 
 export const Challenges = () => {
     const [challenges,setChallenges] = useState([])
@@ -57,6 +58,13 @@ let myChallenges = challenges.filter((c) => {
     return (c.challengerId === parseInt(pinflUserObject.id) || c.recipientId === parseInt(pinflUserObject.id))
     })
 
+let myCompletedChallenges = myChallenges.filter((c) => {
+    for (const challenge of completedChallenges) {
+        return (c.id === challenge.challengeId)
+    }
+
+})
+
 console.log({myChallenges, challenges})
 
 if(myChallenges.length === 0){
@@ -66,21 +74,26 @@ if(myChallenges.length === 0){
 }
 
     return (
-    <>
-    <Link className="navbar__link" to="/createChallenge">Create Challenge</Link>
-    <h2>Upcoming Challenges</h2>
+    <div>
+    <h2>{userObject.name}'s Upcoming Challenges</h2>
+    <div className="upcomingChallenges">
     {
         challenges.map(c => {
             return <ChallengeItem key={c.id} challenge={c} locations={locations} games={games} userObject={userObject} completedChallenges={completedChallenges} users={users} past={"false"}/>
         })
     }
-        <h2>Past Challenges</h2>
+    </div>        <h2>Past Challenges</h2><br></br>
+    <div className="pastChallenges">
+
     {
-        challenges.map(c => {
+
+                    challenges.map(c => {
             return <ChallengeItem key={c.id} challenge={c} locations={locations} games={games} userObject={userObject} completedChallenges={completedChallenges} users={users} past={"true"}/>
         })
+ 
     }
-    </>
+    </div>
+    </div>
     )
 }
 

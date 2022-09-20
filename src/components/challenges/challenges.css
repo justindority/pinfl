@@ -1,0 +1,25 @@
+.completedChallenge {
+    background-color: rgb(231, 249, 205);
+    margin: 1rem;
+    padding: 1rem;
+    border: 5px black solid;
+    width: 300px;
+}
+
+.upcomingChallenge {
+    background-color: rgb(255, 147, 147);
+    margin: 1rem;
+    padding: 1rem;
+    border: 5px black solid;
+    width: 300px;
+}
+
+.upcomingChallenges {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.pastChallenges {
+    display: flex;
+    flex-wrap: wrap;
+}

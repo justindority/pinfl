@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { useParams } from "react-router-dom"
+import { Navigate, useNavigate, useParams } from "react-router-dom"
 import { Challenges } from "./challenges"
 
 export const ModifyChallenge = () => {
@@ -9,6 +9,7 @@ export const ModifyChallenge = () => {
     const [users, setUsers] = useState([])
     const [selectedLocation, setSelectedLocation] = useState()
     const [opponentId, setOpponent] = useState()
+    const navigate = useNavigate()
 
 
 
@@ -60,7 +61,7 @@ export const ModifyChallenge = () => {
             })
                 .then(response => response.json())
                 .then(() => {
-                    
+                    navigate("/challenges")
                 })
     
     }
@@ -72,7 +73,7 @@ export const ModifyChallenge = () => {
         })
             .then(response => response.json())
             .then((resp) => {
-                
+                navigate("/challenges")
             })
 
     }

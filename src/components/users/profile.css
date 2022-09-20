@@ -1,0 +1,30 @@
+.completed-challenge {
+    background-color: lightcoral;
+    margin: 1rem;
+    padding: 1rem;
+    border: 5px black solid;
+    width: 300px;
+}
+
+.completed-win {
+    background-color: lightgreen;
+    margin: 1rem;
+    padding: 1rem;
+    border: 5px black solid;
+}
+
+.completed-loss {
+    background-color: lightcoral;
+    margin: 1rem;
+    padding: 1rem;
+    border: 5px black solid;
+}
+
+img {
+    width: 250px;
+}
+
+.profileChallenges {
+    display: flex;
+    flex-wrap: wrap;
+}

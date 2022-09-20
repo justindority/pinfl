@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import { ProfileChallenge } from "./profileChallenge"
+import "./profile.css"
 
 export const Profile = () => {
     const {userId} = useParams()
@@ -80,15 +81,19 @@ export const Profile = () => {
         for (const challenge of challenges) {
             if(challenge.completedChallenges.length > 0){
                 if(challenge.challengerId === user.id || challenge.recipientId === user.id){
-                if(user.id === challenge.completedChallenges.game1WinnerId){
-                    if(user.id === challenge.completedChallenges.game2WinnerId){
+                if(user.id === challenge.completedChallenges[0].game1WinnerId){
+                    if(user.id === challenge.completedChallenges[0].game2WinnerId){
                         wins++
-                    } else if (user.id === challenge.completedChallenges.game3WinnerId){
+                    } else if (user.id === challenge.completedChallenges[0].game3WinnerId){
                         wins++
+                    } else {
+                        losses++
                     }
-                } else if (user.id === challenge.completedChallenges.game2WinnerId){
-                    if(user.id === challenge.completedChallenges.game3WinnerId){
+                } else if (user.id === challenge.completedChallenges[0].game2WinnerId){
+                    if(user.id === challenge.completedChallenges[0].game3WinnerId){
                         wins++
+                    } else {
+                        losses++
                     }
                 } else {
                     losses++
@@ -103,12 +108,14 @@ export const Profile = () => {
         <div>
             Wins: {wins} Losses: {losses}
         </div>
-        <h4>Completed Challenges</h4>
+        <h3>Completed Challenges</h3>
+        <div className="profileChallenges">
         {
             challenges.map(c => {
                 return <ProfileChallenge key={c.id} challenge={c} locations={locations} games={games} user={user} completedChallenges={completedChallenges} users={users}/>
             })
         }
+        </div>
         </>
         )
     } else {
@@ -118,15 +125,19 @@ export const Profile = () => {
         for (const challenge of challenges) {
             if(challenge.completedChallenges.length > 0){
                 if(challenge.challengerId === user.id || challenge.recipientId === user.id){
-                if(user.id === challenge.completedChallenges.game1WinnerId){
-                    if(user.id === challenge.completedChallenges.game2WinnerId){
+                if(user.id === challenge.completedChallenges[0].game1WinnerId){
+                    if(user.id === challenge.completedChallenges[0].game2WinnerId){
                         wins++
-                    } else if (user.id === challenge.completedChallenges.game3WinnerId){
+                    } else if (user.id === challenge.completedChallenges[0].game3WinnerId){
                         wins++
+                    } else {
+                        losses++
                     }
-                } else if (user.id === challenge.completedChallenges.game2WinnerId){
-                    if(user.id === challenge.completedChallenges.game3WinnerId){
+                } else if (user.id === challenge.completedChallenges[0].game2WinnerId){
+                    if(user.id === challenge.completedChallenges[0].game3WinnerId){
                         wins++
+                    } else {
+                        losses++
                     }
                 } else {
                     losses++
@@ -142,11 +153,13 @@ export const Profile = () => {
             Wins: {wins} Losses: {losses}
         </div>
         <h4>Completed Challenges</h4>
+        <div className="profileChallenges">
         {
             challenges.map(c => {
                 return <ProfileChallenge key={c.id} challenge={c} locations={locations} games={games} user={user} completedChallenges={completedChallenges} users={users}/>
             })
         }
+        </div>
         </>
         )
     }

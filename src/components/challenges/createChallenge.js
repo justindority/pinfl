@@ -31,6 +31,10 @@ export const CreateChallenge = () => {
     const localPinflUser = localStorage.getItem("pinfl_user")
     const pinflUserObject = JSON.parse(localPinflUser)
 
+    const navigateChallenges = () => {
+        navigate(`challenges`)
+    }
+
     const handleSubmitButtonClick = (event) => {
         if(challenge.opponentId && challenge.locationId && challenge.challengeDate && challenge.game1Id && challenge.game2Id && challenge.game3Id){
     
@@ -58,7 +62,7 @@ export const CreateChallenge = () => {
                 })
     
             } else {
-    
+                window.alert("Please complete all fields")
             }
     }
 

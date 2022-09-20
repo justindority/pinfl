@@ -16,8 +16,7 @@ export const ApplicationViews = () => {
         <Routes>
             <Route path="/" element={
                 <>
-                    <h1>PINFL</h1>
-                    <div>do some competing</div>
+
 
                     <Outlet />
                 </>
