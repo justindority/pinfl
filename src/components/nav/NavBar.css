@@ -20,8 +20,9 @@
     justify-content: space-around; */
 }
 
-img{
+.navImg {
     align-self: flex-start;
-    height: 150px;
+    height: 160px;
+    width: 200px;
     margin-left: 10px;
 }

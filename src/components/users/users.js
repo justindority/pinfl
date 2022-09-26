@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react"
-import { Link } from "react-router-dom"
+import { Link, Navigate, useNavigate } from "react-router-dom"
+import { ListGroup, ListGroupItem } from "reactstrap"
+import "./profile.css"
 
 export const Users = () => {
     const [users,setUsers] = useState([])
     const [challenges,setChallenges] = useState([])
+    const navigate = useNavigate()
 
     useEffect(()=>{
         fetch(`http://localhost:8088/users`)
@@ -22,13 +25,32 @@ export const Users = () => {
 
     }
 
+    const navClick = (id) =>{
+        navigate(`profile/${id}`)
+    }
+
     return (
-        <ul>
+        <>
+        <h2>Users</h2>
+        <ListGroup>
             {
                 users.map(u => {
-                    return <li key={u.id}><Link to={`profile/${u.id}`}>{u.name}</Link></li>
+                    return <>
+                    <ListGroupItem
+                className="lgi"
+                key={u.id}
+            action
+            active
+            onClick={()=> navClick(u.id)}
+            tag="a"
+            >
+      {u.name}
+    </ListGroupItem>
+    </>
+
                 })
             }
-</ul>
+            </ListGroup>
+</>
     )
 }

@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
-import { Challenges } from "./challenges"
 
 export const CreateChallenge = () => {
     const [locations,setLocations] = useState([])
@@ -36,6 +35,7 @@ export const CreateChallenge = () => {
     }
 
     const handleSubmitButtonClick = (event) => {
+        event.preventDefault()
         if(challenge.opponentId && challenge.locationId && challenge.challengeDate && challenge.game1Id && challenge.game2Id && challenge.game3Id){
     
             const newChallenge = {

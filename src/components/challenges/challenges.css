@@ -23,3 +23,7 @@
     display: flex;
     flex-wrap: wrap;
 }
+
+button {
+    margin: .5rem
+}

@@ -1,0 +1,9 @@
+.list-group-item.active {
+    width: 45%;
+    background-color: rgb(192, 46, 35);
+    border-color: black;
+}
+
+.list-group {
+    margin: 5px
+}

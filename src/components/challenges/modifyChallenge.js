@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react"
-import { Navigate, useNavigate, useParams } from "react-router-dom"
-import { Challenges } from "./challenges"
+import { useNavigate, useParams } from "react-router-dom"
 
 export const ModifyChallenge = () => {
     const { challengeId } = useParams()
@@ -51,7 +50,8 @@ export const ModifyChallenge = () => {
 
 
     const handleSubmitButtonClick = (event) => {
-
+        event.preventDefault()
+    
             return fetch(`http://localhost:8088/challenges/${challengeId}`, {
                 method: "PUT",
                 headers: {
@@ -67,6 +67,7 @@ export const ModifyChallenge = () => {
     }
 
     const handleDeleteButtonClick = (evt) => {
+        evt.preventDefault()
 
         return fetch(`http://localhost:8088/challenges/${challengeId}`, {
             method: "DELETE",
@@ -219,13 +220,13 @@ export const ModifyChallenge = () => {
             </fieldset>
           
             <button 
-            onClick={(clickEvent) => handleSubmitButtonClick(clickEvent)}
+            onClick={handleSubmitButtonClick}
             className="btn btn-primary">
                 Submit Challenge Modifications
             </button>
 
             <button
-            onClick={(evt) => handleDeleteButtonClick(evt)}
+            onClick={handleDeleteButtonClick}
             className="btn btn-primary">
                 Delete Challenge
             </button>

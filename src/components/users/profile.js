@@ -106,8 +106,8 @@ export const Profile = () => {
         <>
         <h2>Your Profile</h2>
         <div>
-            Wins: {wins} Losses: {losses}
-        </div>
+            <h5>Wins: {wins} Losses: {losses}</h5>
+        </div><br/>
         <h3>Completed Challenges</h3>
         <div className="profileChallenges">
         {

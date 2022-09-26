@@ -78,7 +78,8 @@ export const RecordResults = () => {
         setSelf(foundSelfObject)
     },[opponentId])
 
-    const handleRecordButtonClick = () => {
+    const handleRecordButtonClick = (event) => {
+        event.preventDefault()
         const completionObject = {
             challengeId: challenge.id,
             game1WinnerId: winners.game1winner,
@@ -173,13 +174,13 @@ export const RecordResults = () => {
                                 selectedLocation?.location_machine_xrefs.map(g => <option key={g.machine.opdb_id} value={g.machine.opdb_id}>{g.machine.name} ({g.machine.manufacturer} {g.machine.year})</option>)
                             }
 
-                        </select>
+                        </select><br/>
                         <div onChange={(evt)=>setGame1Winner(evt)}>
-                        <label htmlFor="game1Winner">Game 1 Winner:</label>
+                        <label htmlFor="game1Winner">Game 1 Winner:&nbsp;&nbsp;&nbsp;</label>
                         <input id="game1you" name="game1winner" type={"radio"} value={foundSelf?.id}></input>
-                        <label htmlFor="game1you">{foundSelf?.name}</label>
+                        <label htmlFor="game1you"> {foundSelf?.name}&nbsp;&nbsp;&nbsp;</label>
                         <input name="game1winner" type={"radio"} id="game1opponent" value={foundOpponent?.id} ></input>
-                        <label htmlFor="game1opponent">{foundOpponent?.name}</label>
+                        <label htmlFor="game1opponent"> {foundOpponent?.name}</label>
                         </div>
                 </div>
             </fieldset>
@@ -206,9 +207,10 @@ export const RecordResults = () => {
 
                         </select>
                         <div onChange={(evt)=>setGame2Winner(evt)}>
-                        <label htmlFor="game1Winner">Game 2 Winner:</label>
+                            <br/>
+                        <label htmlFor="game1Winner">Game 2 Winner:&nbsp;&nbsp;</label>
                         <input id="game2you" name="game2winner" type={"radio"} value={foundSelf?.id}></input>
-                        <label htmlFor="game2you">{foundSelf?.name}</label>
+                        <label htmlFor="game2you">{foundSelf?.name}&nbsp;&nbsp;</label>
                         <input name="game2winner" type={"radio"} id="game2opponent" value={foundOpponent?.id} ></input>
                         <label htmlFor="game2opponent">{foundOpponent?.name}</label>
                         </div>
@@ -237,9 +239,10 @@ export const RecordResults = () => {
 
                         </select>
                         <div onChange={(evt)=>setGame3Winner(evt)}>
-                        <label htmlFor="game3Winner">Game 3 Winner:</label>
+                            <br/>
+                        <label htmlFor="game3Winner">Game 3 Winner:&nbsp;&nbsp;</label>
                         <input id="game3you" name="game3winner" type={"radio"} value={foundSelf?.id}></input>
-                        <label htmlFor="game3you">{foundSelf?.name}</label>
+                        <label htmlFor="game3you">{foundSelf?.name}&nbsp;&nbsp;</label>
                         <input name="game3winner" type={"radio"} id="game3opponent" value={foundOpponent?.id} ></input>
                         <label htmlFor="game3opponent">{foundOpponent?.name}</label>
                         </div>
