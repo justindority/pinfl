@@ -52,7 +52,14 @@ export const ModifyChallenge = () => {
     const handleSubmitButtonClick = (event) => {
         event.preventDefault()
     
-            return fetch(`http://localhost:8088/challenges/${challengeId}`, {
+        let newNotification = {
+            userId: opponentId,
+            type: 3,
+            open: true,
+            challengeId: parseInt(challengeId)
+        }
+
+             fetch(`http://localhost:8088/challenges/${challengeId}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json"
@@ -61,25 +68,59 @@ export const ModifyChallenge = () => {
             })
                 .then(response => response.json())
                 .then(() => {
-                    navigate("/challenges")
+                    fetch(`http://localhost:8088/notifications`, {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify(newNotification)
+                    })
+                    .then(response => response.json())
+                    .then(()=> {
+                        navigate(`/challenges`)
+                    })
                 })
     
+    }
+
+    const deleteFunction = () => {
+        fetch(`http://localhost:8088/challenges/${challengeId}`, {
+            method: "DELETE",
+        })
+            .then(response => response.json())
+            .then(() => {
+                        navigate(`/challenges`)
+                    })
+                
     }
 
     const handleDeleteButtonClick = (evt) => {
         evt.preventDefault()
 
-        return fetch(`http://localhost:8088/challenges/${challengeId}`, {
-            method: "DELETE",
-        })
-            .then(response => response.json())
-            .then((resp) => {
-                navigate("/challenges")
-            })
+        let newNotification = {
+            userId: opponentId,
+            type: 4,
+            open: true,
+            challengeId: parseInt(challengeId)
+        }
+         
+        deleteFunction()
+            // fetch(`http://localhost:8088/notifications`, {
+            //         method: "POST",
+            //         headers: {
+            //             "Content-Type": "application/json"
+            //         },
+            //         body: JSON.stringify(newNotification)
+            //     })
+            //     .then(response => response.json())
+            //     .then(()=> {
+                    
+            //         })
 
     }
 
     return (
+        <div className="formDiv">
         <form className="challenge-form">
             <h2 className="challenge-form-title">Modify Challenge</h2>
             <fieldset>
@@ -231,5 +272,6 @@ export const ModifyChallenge = () => {
                 Delete Challenge
             </button>
         </form>
+        </div>
     )
 }

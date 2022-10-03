@@ -87,6 +87,13 @@ export const RecordResults = () => {
             game3WinnerId: winners.game3winner
         }
 
+        const newNotification = {
+            challengeId: challenge.id,
+            userId: opponentId,
+            open: true,
+            type: 5,
+        }
+
         return fetch(`http://localhost:8088/completedChallenges`, {
             method: "POST",
             headers: {
@@ -96,7 +103,17 @@ export const RecordResults = () => {
         })
             .then(response => response.json())
             .then(() => {
+                return fetch(`http://localhost:8088/notifications`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(newNotification)
+                })
+                    .then(response => response.json())
+                    .then(() => {
                 navigate(`/challenges`)
+                    })
             })
 
         }
@@ -126,18 +143,19 @@ export const RecordResults = () => {
     }
 
     return (
+        <><div className="formDiv">
         <form className="challenge-form">
             <h2 className="challenge-form-title">Record Challenge Results</h2>
             <fieldset>
                 <div className="form-group">
                     <label htmlFor="opponents">Opponent:</label>
-                    <h4>{foundOpponent?.name}</h4>
+                    <h2>{foundOpponent?.name}</h2>
                 </div>
             </fieldset>
             <fieldset>
                 <div className="form-group">
                 <label htmlFor="locations">Location:</label>
-                    <h2>Location: {selectedLocation?.name}</h2>
+                    <h2>{selectedLocation?.name}</h2>
                 </div>
             </fieldset>
             <fieldset>
@@ -178,9 +196,9 @@ export const RecordResults = () => {
                         <div onChange={(evt)=>setGame1Winner(evt)}>
                         <label htmlFor="game1Winner">Game 1 Winner:&nbsp;&nbsp;&nbsp;</label>
                         <input id="game1you" name="game1winner" type={"radio"} value={foundSelf?.id}></input>
-                        <label htmlFor="game1you"> {foundSelf?.name}&nbsp;&nbsp;&nbsp;</label>
+                        <label htmlFor="game1you"> &nbsp;{foundSelf?.name}&nbsp;&nbsp;&nbsp;</label>
                         <input name="game1winner" type={"radio"} id="game1opponent" value={foundOpponent?.id} ></input>
-                        <label htmlFor="game1opponent"> {foundOpponent?.name}</label>
+                        <label htmlFor="game1opponent"> &nbsp;{foundOpponent?.name}</label>
                         </div>
                 </div>
             </fieldset>
@@ -210,9 +228,9 @@ export const RecordResults = () => {
                             <br/>
                         <label htmlFor="game1Winner">Game 2 Winner:&nbsp;&nbsp;</label>
                         <input id="game2you" name="game2winner" type={"radio"} value={foundSelf?.id}></input>
-                        <label htmlFor="game2you">{foundSelf?.name}&nbsp;&nbsp;</label>
+                        <label htmlFor="game2you">&nbsp;{foundSelf?.name}&nbsp;&nbsp;&nbsp;</label>
                         <input name="game2winner" type={"radio"} id="game2opponent" value={foundOpponent?.id} ></input>
-                        <label htmlFor="game2opponent">{foundOpponent?.name}</label>
+                        <label htmlFor="game2opponent">&nbsp;{foundOpponent?.name}</label>
                         </div>
                 </div>
             </fieldset>
@@ -242,9 +260,9 @@ export const RecordResults = () => {
                             <br/>
                         <label htmlFor="game3Winner">Game 3 Winner:&nbsp;&nbsp;</label>
                         <input id="game3you" name="game3winner" type={"radio"} value={foundSelf?.id}></input>
-                        <label htmlFor="game3you">{foundSelf?.name}&nbsp;&nbsp;</label>
+                        <label htmlFor="game3you">&nbsp;{foundSelf?.name}&nbsp;&nbsp;&nbsp;</label>
                         <input name="game3winner" type={"radio"} id="game3opponent" value={foundOpponent?.id} ></input>
-                        <label htmlFor="game3opponent">{foundOpponent?.name}</label>
+                        <label htmlFor="game3opponent">&nbsp;{foundOpponent?.name}</label>
                         </div>
                 </div>
             </fieldset>
@@ -255,5 +273,6 @@ export const RecordResults = () => {
                 Record Challenge Results
             </button>
         </form>
+        </div></>
     )
 }

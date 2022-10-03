@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react"
-import { Link, useParams } from "react-router-dom"
+import { Link, Navigate, useNavigate, useParams } from "react-router-dom"
 import { ProfileChallenge } from "../users/profileChallenge"
 import { ChallengeItem } from "./challengeItem"
 import "./challenges.css"
+import { default as updown } from "./updown3.jpg";
 
 export const Challenges = () => {
     const [challenges,setChallenges] = useState([])
@@ -11,8 +12,9 @@ export const Challenges = () => {
     const [completedChallenges, setCompletedChallenges] = useState([])
     const [users, setUsers] = useState([])
     const [isLoading, setLoading] = useState(true)
+    const navigate = useNavigate()
 
-
+    
     useEffect(()=>{
         fetch(`http://localhost:8088/challenges?_embed=completedChallenges`)
         .then(r => r.json())
@@ -39,7 +41,10 @@ export const Challenges = () => {
                                 })
                         })
                 })
-        })
+        }).catch((error) => {
+            window.location.reload()
+      })
+  
     },[])
 
 
@@ -47,6 +52,7 @@ export const Challenges = () => {
 
 
 if(isLoading){
+    // setTimeout(navigate('/challenges'), 300)
     return <>Loading</>
 }
 
@@ -65,24 +71,31 @@ let myCompletedChallenges = myChallenges.filter((c) => {
 
 })
 
+challenges.sort((a,b) => {
+    return b.id - a.id
+})
+
 console.log({myChallenges, challenges})
 
 if(myChallenges.length === 0){
     return <>
+    <img src={updown} className="bckImg" ></img>
     <>No Challenges Found</>
     </>
 }
 
     return (
     <div>
-    <h2>{userObject.name}'s Upcoming Challenges</h2>
+        <img src={updown} className="bckImg" ></img>
+
+    <h2 className="usersH2">{userObject.name}'s Upcoming Challenges</h2>
     <div className="upcomingChallenges">
     {
         challenges.map(c => {
             return <ChallengeItem key={c.id} challenge={c} locations={locations} games={games} userObject={userObject} completedChallenges={completedChallenges} users={users} past={"false"}/>
         })
     }
-    </div>        <h2>Past Challenges</h2><br></br>
+    </div>        <h2 className="usersH2">Past Challenges</h2><br></br>
     <div className="pastChallenges">
 
     {

@@ -3,6 +3,9 @@ import { useParams } from "react-router-dom"
 import { ProfileChallenge } from "./profileChallenge"
 import "./profile.css"
 
+
+
+
 export const Profile = () => {
     const {userId} = useParams()
     const [user,setUser] = useState({})
@@ -74,6 +77,10 @@ export const Profile = () => {
         </>
     }
 
+    challenges.sort((a,b) => {
+        return b.id - a.id
+    })
+
     if(user.id === pinflUserObject.id){
 
         let wins = 0
@@ -104,11 +111,11 @@ export const Profile = () => {
 
         return (
         <>
-        <h2>Your Profile</h2>
+        <h2 className="usersH2">Your Profile</h2>
         <div>
-            <h5>Wins: {wins} Losses: {losses}</h5>
+            <h5 className="usersH5">Wins: {wins} <br></br>Losses: {losses}</h5>
         </div><br/>
-        <h3>Completed Challenges</h3>
+        <h3 className="usersH2">Completed Challenges</h3>
         <div className="profileChallenges">
         {
             challenges.map(c => {
@@ -148,11 +155,12 @@ export const Profile = () => {
 
         return (
         <>
-        <h2>{user.name}'s Profile</h2>
-        <div>
-            Wins: {wins} Losses: {losses}
+        <h2 className="profileH2">{user.name}'s Profile</h2>
+        <div className="usersH5">
+            Wins: {wins}
+            <br></br>Losses: {losses}
         </div>
-        <h4>Completed Challenges</h4>
+        <h4 className="profileH2">Completed Challenges</h4>
         <div className="profileChallenges">
         {
             challenges.map(c => {

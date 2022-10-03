@@ -4,6 +4,7 @@ import { ApplicationViews } from "./components/views/ApplicationViews"
 import { NavBar } from "./components/nav/NavBar"
 import { Login } from "./components/auth/Login"
 import { Register } from "./components/auth/Register"
+import { PinflFooter } from "./components/footer/footer"
 
 
 
@@ -17,6 +18,7 @@ export const Pinfl = () => {
 				<>
 					<NavBar />
 					<ApplicationViews />
+					<PinflFooter />
 				</>
 			</Authorized>
 

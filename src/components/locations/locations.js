@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { Link, useNavigate } from "react-router-dom";
 import { ListGroup, ListGroupItem } from "reactstrap";
+import { default as gameTerminal } from "./flipside.jpg";
 import "./locations.css"
 
 export const Locations = () => {
@@ -47,23 +48,34 @@ const navClick = (id) =>{
     navigate(`location/${id}`)
 }
 
+const grammarEnjoyer = (location) => {
+    if(location.location_machine_xrefs.length > 1){
+        return <>{location.name} ({location.location_machine_xrefs.length} games)</>
+    } else {
+        return <>{location.name} ({location.location_machine_xrefs.length} game)</>
+    }
+}
+
 return (
     <>
-    <h2>Locations</h2>
-    <ListGroup>
+    <img src={gameTerminal} className="bckImg"></img>
+
+    <h2 className="usersH2">Locations</h2>
+    <h5 className="usersH5">Select a location to see top players and games</h5>
+    <ListGroup className="locationsListGroup">
     {
         locations.map(location => {
             return<> 
 
                 <ListGroupItem
-                className="lgi"
+                className="lgi active"
                 key={location.id}
             action
             active
             onClick={()=> navClick(location.id)}
             tag="a"
             >
-      {location.name} ({location.location_machine_xrefs.length} games)
+      {grammarEnjoyer(location)}
     </ListGroupItem>
 
 </>
@@ -72,6 +84,9 @@ return (
         )
     }
         </ListGroup>
+   
+
+
     </>
 )
 

@@ -7,6 +7,7 @@ import { RecordResults } from "../challenges/recordResults"
 import { HomePage } from "../home/home"
 import { LocationPage } from "../locations/locationPage"
 import { Locations } from "../locations/locations"
+import { Notifications } from "../notifications/notifications"
 import { Profile } from "../users/profile"
 import { Users } from "../users/users"
 
@@ -34,6 +35,7 @@ export const ApplicationViews = () => {
 				<Route path="challenges/record/:challengeId" element={ <RecordResults />} />
                 <Route path="locations/location/:locationId" element={ <LocationPage />} />
                 <Route path="home" element={ <HomePage />} />
+                <Route path="notifications" element={ <Notifications />} />
 
 
             </Route>

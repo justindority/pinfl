@@ -1,0 +1,16 @@
+.notificationCard {
+    width: 18rem;
+    margin: 2rem;
+    padding: 1rem;
+}
+
+.notifications {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.notificationNotification {
+    text-align: center;
+    color: white;
+}

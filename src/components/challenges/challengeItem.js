@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom"
+import { Card, CardBody, CardTitle } from "reactstrap"
 import { ModifyChallenge } from "../challenges/modifyChallenge"
 
 export const ChallengeItem = ({challenge,locations,games,userObject,completedChallenges,users,past}) => {
@@ -22,6 +23,13 @@ export const ChallengeItem = ({challenge,locations,games,userObject,completedCha
         const acceptChallenge = challenge
         acceptChallenge.accepted = true
 
+        let newNotification = {
+            userId: foundOpponent.id,
+            type: 2,
+            open: true,
+            challengeId: challengeId
+        }
+
         return fetch(`http://localhost:8088/challenges/${challengeId}`, {
             method: "PUT",
             headers: {
@@ -31,7 +39,17 @@ export const ChallengeItem = ({challenge,locations,games,userObject,completedCha
         })
             .then(response => response.json())
             .then(() => {
-                navigate("/challenges")
+                fetch(`http://localhost:8088/notifications`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(newNotification)
+                })
+                .then(response => response.json())
+                .then(()=> {
+                    navigate(`/challenges`)
+                })
             })
     }
 
@@ -78,26 +96,46 @@ export const ChallengeItem = ({challenge,locations,games,userObject,completedCha
                 result = "(L)"
             }
 
-            return (<div id={challenge.id} key={challenge.id} className="completedChallenge">
-            <h3>Vs. {foundOpponent?.name} {result}</h3>
-            <p>Completed at {foundLocation?.name} on {challenge.challengeDate}</p>
-            <p>Game 1: {foundGame1?.name} (Winner: {findUser(completedCheck.game1WinnerId).name})</p>
-            <img src={foundGame1?.images[0]?.urls?.small}/>
-            <p>Game 2: {foundGame2?.name} (Winner: {findUser(completedCheck.game2WinnerId).name})</p>
-            <img src={foundGame2?.images[0]?.urls?.small}/>
-            <p>Game 3: {foundGame3?.name} (Winner: {findUser(completedCheck.game3WinnerId).name})</p>
-            <img src={foundGame3?.images[0]?.urls?.small}/></div>)
+            let completedChallenge = completedChallenges.find(cc => cc.challengeId === challenge.id)
+            let game1winner = users.find(u => u.id === completedChallenge.game1WinnerId)
+            let game2winner = users.find(u => u.id === completedChallenge.game2WinnerId)
+            let game3winner = users.find(u => u.id === completedChallenge.game3WinnerId)
+
+            return (<Card id={challenge.id} key={challenge.id} className="">
+            <div className="headerTop">
+              <CardTitle tag={"h3"}>vs. {foundOpponent?.name} {result}</CardTitle>
+  
+              <p>At {foundLocation?.name} on {challenge.challengeDate}</p>
+              <p>Game 1: {foundGame1?.name} (Winner: {game1winner.name})</p>
+              </div>
+              <img src={foundGame1?.images[0]?.urls?.small}/>
+              <div className="content">
+              <p>Game 2: {foundGame2?.name} (Winner: {game2winner.name})</p>
+              </div>
+              <img src={foundGame2?.images[0]?.urls?.small}/>
+              <div className="content">
+              <p>Game 3: {foundGame3?.name} (Winner: {game3winner.name})</p>
+              </div>
+              <img src={foundGame3?.images[0]?.urls?.small}/></Card>)
             
         } else if (past === "false" && !completedCheck) {
-        return (<div id={challenge.id} key={challenge.id} className="upcomingChallenge">
-            <h3>Vs. {foundOpponent?.name}</h3>
-            <p>Upcoming at {foundLocation?.name} on {challenge.challengeDate}</p>
+        return (<Card id={challenge.id} key={challenge.id} className="">
+          <div className="headerTop">
+            <CardTitle tag={"h3"}>vs. {foundOpponent?.name}</CardTitle>
+
+            <p>At {foundLocation?.name} on {challenge.challengeDate}</p>
             <p>Game 1: {foundGame1?.name}</p>
+            </div>
             <img src={foundGame1?.images[0]?.urls?.small}/>
+            <div className="content">
             <p>Game 2: {foundGame2?.name} </p>
+            </div>
             <img src={foundGame2?.images[0]?.urls?.small}/>
+            <div className="content">
             <p>Game 3: {foundGame3?.name}</p>
-            <img src={foundGame3?.images[0]?.urls?.small}/><br></br><br></br>
+            </div>
+            <img src={foundGame3?.images[0]?.urls?.small}/>
+            <div className="buttons content">
             {
                 challenge.accepted === true 
                 ?
@@ -111,8 +149,9 @@ export const ChallengeItem = ({challenge,locations,games,userObject,completedCha
                 : ""
             }
             <button onClick={(event)=>clickModify(challenge.id)} >Modify Challenge</button>
-
-        </div>) 
+            </div>
+           
+        </Card>) 
         }
     }
 }

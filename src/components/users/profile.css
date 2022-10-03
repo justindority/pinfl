@@ -1,3 +1,8 @@
+@font-face {
+    font-family: "Roman";
+    src: url("RG-StandardBook.ttf");
+}
+
 .completed-challenge {
     background-color: lightcoral;
     margin: 1rem;
@@ -20,11 +25,91 @@
     border: 5px black solid;
 }
 
-img {
-    width: 250px;
-}
 
 .profileChallenges {
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
+}
+
+.entireUsersDiv {
+    /* background-color: black; */
+    height: 100vw;
+    display: flex;
+    justify-content: space-around;
+
+}
+
+.userPhotosDiv {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    margin: 4rem;
+}
+
+.userPhotosDiv img {
+    height: auto;
+    margin-bottom: 1rem;
+}
+
+.usersH2 {
+    margin: 0;
+    margin-top: 2rem;
+    color: white;
+    align-items: center;
+    text-align: center;
+    font-family: Roman;
+    font-size: 5rem
+}
+
+.usersH3 {
+    margin: 0;
+    margin-top: 2rem;
+    color: white;
+    align-items: center;
+    text-align: center;
+    font-family: Roman;
+    font-size: 3rem
+}
+
+.usersH5 {
+    margin: 0;
+    color: white;
+    align-items: center;
+    text-align: center;
+    font-family: Roman;
+    font-size: 2rem
+}
+
+.usersListGroup {
+    width: 35rem;
+    margin: 2rem;
+    align-items: center;
+    width: max-content;
+    margin-left: 7.8rem;
+}
+
+body {
+    background-image: url("./edited2.jpg");
+    background-size: 100vw;
+    background-color: black;
+}
+
+img {
+    height: 230px;
+    width: auto;
+}
+
+.userList {
+    margin-left: 8rem;
+}
+
+.profileH2 {
+    margin: 0;
+    margin-top: 2rem;
+    color: white;
+    align-items: center;
+    text-align: center;
+    font-family: Roman;
+    font-size: 5rem
 }

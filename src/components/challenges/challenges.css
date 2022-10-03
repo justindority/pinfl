@@ -17,13 +17,102 @@
 .upcomingChallenges {
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
 }
 
 .pastChallenges {
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
 }
 
 button {
     margin: .5rem
+}
+
+h2 {
+    text-align: center;
+    margin: 1rem;
+}
+
+img {
+    height: 230px;
+    width: auto;
+}
+
+.card {
+    height: fit-content;
+    padding: 0px;
+    width: min-content;
+    margin: 2rem;
+    margin-left: 3rem;
+    margin-right: 3rem;
+    border: black 2.5px solid;
+    background-color: rgb(26, 22, 23);
+    color: white;
+}
+
+.card p {
+    font-size: large;
+    font-family: Helvetica;
+}
+.card h3 {
+    font-family: helvetica;
+}
+
+.card.hover {
+    box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
+}
+
+.content {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-top: 1rem;
+}
+
+.buttons {
+    display: flex;
+    justify-content: center;
+}
+
+p {
+    margin-bottom: .3rem;
+    text-align: center;
+}
+
+.card-title {
+    padding-top: .5rem;
+    text-align: center;
+}
+
+.createBoth {
+    display: flex;
+    justify-content: space-around;
+    height: 90vh;
+    width: 100vw;
+    color: white;
+    background-color: rgb(61, 64, 67);
+    position: absolute;
+
+}
+
+.createImage {
+    height: 100%
+}
+
+.formDiv {
+    width: 100vw;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    color: white;
+}
+
+.challengeForm  {
+    color: white;
+    width: 100%;
+}
+
+.challengeSubmitButton {
+    text-align: center;
 }

@@ -1,9 +1,44 @@
 .list-group-item.active {
-    width: 45%;
-    background-color: rgb(192, 46, 35);
+    background-color: rgb(40, 40, 40);
     border-color: black;
+    color: white;
+
+    text-align: center;
+
 }
 
-.list-group {
-    margin: 5px
+.list-group-item.active:hover {
+    background-color: rgb(192, 46, 35);
+    color: white;
+}
+
+.bckImg {
+    /* width: 2375px; 
+    height: 1336px; 
+    left: -586.5px; 
+    top: 0px; 
+    display: block; */
+
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    z-index: -1;
+}
+
+.locationsListGroup {
+    width: max-content;
+    display: flex;
+    margin: 2rem;
+    justify-content: center;
+    margin-left: 43%;
+}
+
+
+.topPlayers {
+    margin-left: 70.3rem;
 }

@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react"
-import { Link, useParams } from "react-router-dom"
+import { Link, useNavigate, useParams } from "react-router-dom"
+import { ListGroup, ListGroupItem } from "reactstrap";
+import "./locations.css"
 
 export const LocationPage = () => {
     const { locationId } = useParams()
@@ -8,6 +10,7 @@ export const LocationPage = () => {
     const [completedChallenges, setCompleted] = useState([]);
     const [isLoading, setLoading] = useState(false)
     const [users, setUsers] = useState([])
+    const navigate = useNavigate()
 
   
     useEffect(() => {
@@ -101,32 +104,38 @@ export const LocationPage = () => {
         return b.wins - a.wins
     })
 
-    console.log(foundLocation)
+
+    const navClick = (id) =>{
+        navigate(`/users/profile/${id}`)
+    }
 
     if(locationResults.length > 0){
 
     return (
         <>
 
-    <h3>{foundLocation.name}</h3>
-    <p>{foundLocation.street}</p>
-    <p>{foundLocation.city}, {foundLocation.state}</p>
-        <h3>Top Players at {foundLocation.name}</h3>
+    <h3 className="usersH2">{foundLocation.name}</h3>
+    <p className="usersH5">{foundLocation.street}</p>
+    <p className="usersH5">{foundLocation.city}, {foundLocation.state}</p>
+        <h3 className="usersH3">Top Players at {foundLocation.name}</h3>
+        <br></br>
 
-
+    <ListGroup className="locationsListGroup topPlayers">
         {
             locationResults?.map(lr => {
                 return <> 
-                <Link to={`/users/profile/${lr.userId}`}>{lr.name}</Link> ({lr.wins} Wins, {lr.losses} Losses)
-                <br></br>
+                <ListGroupItem className="lgi active" onClick={()=>navClick(lr.userId)}>{lr.name} ({lr.wins} Wins, {lr.losses} Losses)</ListGroupItem> 
+              
                 </>
             })
         }
+        </ListGroup>
     <br/>
-    <h3>Games List</h3>
+    <h3 className="usersH3">Games List</h3>
+    <br></br>
     {
         foundLocation.location_machine_xrefs.map(game => {
-            return <p>{game.machine.name} ({game.machine.manufacturer} {game.machine.year})</p>
+            return <p className="usersH5">{game.machine.name} ({game.machine.manufacturer} {game.machine.year})</p>
         })
     }
         </>
